@@ -2,39 +2,41 @@
 from django.http import JsonResponse
 
 # Lista de instituciones válidas
-VALID_INSTITUTIONS = [
-    "GORDON_BERNELL_CHARTER",
-    "CROWLEY_COUNTY_ELEMENTARY_K-6",
-    "KENNEDALE_H_S",
-    "Ravenna_High_School",
-    "BALDWIN_ELEM",
-    "Sunrise_Elementary",
-    "CORNING_PAINTED_POST_MIDDLE_SCHOOL",
-    "FOX_HOLLOW_ELEMENTARY_SCHOOL",
-    "Central_Elementary_School",
-    "Camden_High",
-    "Anson_Co_Early_College_High",
-    "Lockland_Middle_School",
-    "OVERBROOK_ELEMENTARY_SCHOOL",
-    "WARREN_CENTRAL_INTERMEDIATE",
-    "Western_Peaks_Elementary",
-    "Fayette_Elementary_School",
-]
+VALID_INSTITUTIONS = ["GORDON_BERNELL_CHARTER", "CROWLEY_COUNTY_ELEMENTARY_K-6"]
+
+# Lista de usuarios válidos y su institución asociada
+USER_INSTITUTION_MAPPING = {
+    "pedro20": "GORDON_BERNELL_CHARTER",
+    "emilioZea1": "CROWLEY_COUNTY_ELEMENTARY_K-6",
+}
 
 
 def get_institution_from_user(request, user_id):
     try:
-        # Extraer el nombre de la institución después del guion "-"
+        # Dividir el identificador del usuario en dos partes (usuario e institución)
         parts = user_id.split("-", 1)
         if len(parts) < 2:
             raise ValueError("Invalid user_id format")
 
+        user_name = parts[0]
         institution_name = parts[1]
 
+        # Verificar si el usuario está en la lista de usuarios válidos
+        if user_name not in USER_INSTITUTION_MAPPING:
+            return JsonResponse({"error": "User not recognized"}, status=400)
+
         # Verificar si la institución está en la lista de instituciones válidas
-        if institution_name in VALID_INSTITUTIONS:
-            return JsonResponse({"institution": institution_name})
-        else:
+        if institution_name not in VALID_INSTITUTIONS:
             return JsonResponse({"error": "Institution not recognized"}, status=400)
+
+        # Verificar si el usuario está asociado a la institución correcta
+        if USER_INSTITUTION_MAPPING[user_name] != institution_name:
+            return JsonResponse(
+                {"error": "User and institution do not match"}, status=400
+            )
+
+        # Si el usuario y la institución son válidos y están asociados, devolver la institución
+        return JsonResponse({"institution": institution_name})
+
     except ValueError:
         return JsonResponse({"error": "Invalid user_id format"}, status=400)

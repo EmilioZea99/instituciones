@@ -2,6 +2,155 @@ Como correr el programa:
 Poner en consola:
 cd ruta/donde/esta/el/proyecto/INSTITUCIONES/
 
-Probar asi: Poner en la barra de busqueda:
-http://127.0.0.1:8000/instituciones/institution/auxiliar1-GORDON_BERNELL_CHARTER/
+Probar asi:
+Casos de Prueba para la Aplicación Django
 
+Usuarios válidos:
+
+pedro20 asociado con GORDON_BERNELL_CHARTER
+
+emilioZea1 asociado con CROWLEY_COUNTY_ELEMENTARY_K-6
+
+Instituciones válidas:
+
+GORDON_BERNELL_CHARTER
+
+CROWLEY_COUNTY_ELEMENTARY_K-6
+
+Casos de Prueba
+
+1. Caso de Éxito: Usuario e Institución Correctos
+
+Descripción: Usuario y institución son válidos y están correctamente asociados.
+
+URL:
+
+http://127.0.0.1:8000/instituciones/institution/pedro20-GORDON_BERNELL_CHARTER/
+
+Esperado:
+
+{
+  "institution": "GORDON_BERNELL_CHARTER"
+}
+
+URL:
+
+http://127.0.0.1:8000/instituciones/institution/emilioZea1-CROWLEY_COUNTY_ELEMENTARY_K-6/
+
+Esperado:
+
+{
+  "institution": "CROWLEY_COUNTY_ELEMENTARY_K-6"
+}
+
+2. Caso de Error: Usuario No Reconocido
+
+Descripción: El nombre del usuario no está en la lista de usuarios válidos.
+
+URL:
+
+http://127.0.0.1:8000/instituciones/institution/usuarioX-GORDON_BERNELL_CHARTER/
+
+Esperado:
+
+{
+  "error": "User not recognized"
+}
+
+3. Caso de Error: Institución No Reconocida
+
+Descripción: El nombre de la institución no está en la lista de instituciones válidas.
+
+URL:
+
+http://127.0.0.1:8000/instituciones/institution/pedro20-INSTITUCION_NO_VALIDA/
+
+Esperado:
+
+{
+  "error": "Institution not recognized"
+}
+
+4. Caso de Error: Usuario e Institución No Están Asociados
+
+Descripción: El usuario e institución son válidos, pero no están asociados entre sí.
+
+URL:
+
+http://127.0.0.1:8000/instituciones/institution/pedro20-CROWLEY_COUNTY_ELEMENTARY_K-6/
+
+Esperado:
+
+{
+  "error": "User and institution do not match"
+}
+
+URL:
+
+http://127.0.0.1:8000/instituciones/institution/emilioZea1-GORDON_BERNELL_CHARTER/
+
+Esperado:
+
+{
+  "error": "User and institution do not match"
+}
+
+5. Caso de Error: Formato Inválido del Identificador
+
+Descripción: El identificador de usuario no tiene el formato correcto (usuario-institucion).
+
+URL:
+
+http://127.0.0.1:8000/instituciones/institution/pedro20GORDON_BERNELL_CHARTER/
+
+Esperado:
+
+{
+  "error": "Invalid user_id format"
+}
+
+URL:
+
+http://127.0.0.1:8000/instituciones/institution/pedro20/
+
+Esperado:
+
+{
+  "error": "Invalid user_id format"
+}
+
+Resumen de los Casos de Prueba
+
+Éxito:
+
+pedro20-GORDON_BERNELL_CHARTER → Devuelve la institución correcta.
+
+emilioZea1-CROWLEY_COUNTY_ELEMENTARY_K-6 → Devuelve la institución correcta.
+
+Errores:
+
+Usuario no reconocido: usuarioX-GORDON_BERNELL_CHARTER
+
+Institución no reconocida: pedro20-INSTITUCION_NO_VALIDA
+
+Usuario e institución no asociados:
+
+pedro20-CROWLEY_COUNTY_ELEMENTARY_K-6
+
+emilioZea1-GORDON_BERNELL_CHARTER
+
+Formato inválido del identificador:
+
+pedro20GORDON_BERNELL_CHARTER
+
+pedro20
+
+Cómo Probar los Casos
+
+Ejecuta el Servidor:
+Asegúrate de que tu servidor de desarrollo de Django está ejecutándose.
+
+python3 manage.py runserver
+
+Visita las URLs:
+Copia cada URL en el navegador para probar los diferentes casos. También puedes usar herramientas como Postman o curl en la terminal para probar las respuestas de la API.
