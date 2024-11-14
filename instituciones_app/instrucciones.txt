@@ -1,0 +1,7 @@
+Como correr el programa:
+Poner en consola:
+cd ruta/donde/esta/el/proyecto/INSTITUCIONES/
+
+Probar asi: Poner en la barra de busqueda:
+http://127.0.0.1:8000/instituciones/institution/auxiliar1-GORDON_BERNELL_CHARTER/
+
