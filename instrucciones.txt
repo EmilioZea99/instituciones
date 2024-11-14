@@ -7,9 +7,9 @@ Casos de Prueba para la Aplicación Django
 
 Usuarios válidos:
 
-pedro20 asociado con GORDON_BERNELL_CHARTER
+pedro20 asociado con GORDON_BERNELL_CHARTER (pedro20-GORDON_BERNELL_CHARTER)
 
-emilioZea1 asociado con CROWLEY_COUNTY_ELEMENTARY_K-6
+emilioZea1 asociado con CROWLEY_COUNTY_ELEMENTARY_K-6 (emilioZea1-CROWLEY_COUNTY_ELEMENTARY_K-6)
 
 Instituciones válidas:
 
