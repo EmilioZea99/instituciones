@@ -1,156 +1,120 @@
-Como correr el programa:
-Poner en consola:
-cd ruta/donde/esta/el/proyecto/INSTITUCIONES/
+Casos de Prueba para la Vista get_institution_from_user
 
-Probar asi:
-Casos de Prueba para la Aplicación Django
+La vista get_institution_from_user se prueba utilizando diferentes entradas para asegurar que el comportamiento sea el esperado. La URL para acceder a la vista es:
 
-Usuarios válidos:
+http://127.0.0.1:8000/instituciones/institution/<user_id>/
 
-pedro20 asociado con GORDON_BERNELL_CHARTER (pedro20-GORDON_BERNELL_CHARTER)
+A continuación, se describen los casos de prueba:
 
-emilioZea1 asociado con CROWLEY_COUNTY_ELEMENTARY_K-6 (emilioZea1-CROWLEY_COUNTY_ELEMENTARY_K-6)
+Caso de Prueba 1: Usuario Válido - padre-familia-ernesto-1
 
-Instituciones válidas:
+Descripción: Probar que la vista devuelva correctamente la institución asociada a un usuario válido.
 
-GORDON_BERNELL_CHARTER
+URL: http://127.0.0.1:8000/instituciones/institution/padre-familia-ernesto-1/
 
-CROWLEY_COUNTY_ELEMENTARY_K-6
+Método: GET
 
-Casos de Prueba
-
-1. Caso de Éxito: Usuario e Institución Correctos
-
-Descripción: Usuario y institución son válidos y están correctamente asociados.
-
-URL:
-
-http://127.0.0.1:8000/instituciones/institution/pedro20-GORDON_BERNELL_CHARTER/
-
-Esperado:
+Respuesta Esperada:
 
 {
-  "institution": "GORDON_BERNELL_CHARTER"
+  "institution": "Western_Peaks_Elementary"
 }
 
-URL:
+Código de Estado Esperado: 200
 
-http://127.0.0.1:8000/instituciones/institution/emilioZea1-CROWLEY_COUNTY_ELEMENTARY_K-6/
+Caso de Prueba 2: Usuario Válido - aux-jose-1
 
-Esperado:
+Descripción: Probar que la vista devuelva correctamente la institución asociada a otro usuario válido.
+
+URL: http://127.0.0.1:8000/instituciones/institution/aux-jose-1/
+
+Método: GET
+
+Respuesta Esperada:
 
 {
-  "institution": "CROWLEY_COUNTY_ELEMENTARY_K-6"
+  "institution": "Western_Peaks_Elementary"
 }
 
-2. Caso de Error: Usuario No Reconocido
+Código de Estado Esperado: 200
 
-Descripción: El nombre del usuario no está en la lista de usuarios válidos.
+Caso de Prueba 3: Usuario Válido - padre-familia-valentina-1
 
-URL:
+Descripción: Probar que la vista devuelva la institución asociada a padre-familia-valentina-1.
 
-http://127.0.0.1:8000/instituciones/institution/usuarioX-GORDON_BERNELL_CHARTER/
+URL: http://127.0.0.1:8000/instituciones/institution/padre-familia-valentina-1/
 
-Esperado:
+Método: GET
+
+Respuesta Esperada:
+
+{
+  "institution": "Ravenna_High_School"
+}
+
+Código de Estado Esperado: 200
+
+Caso de Prueba 4: Usuario Válido - aux-camila-1
+
+Descripción: Probar que la vista devuelva la institución asociada a aux-camila-1.
+
+URL: http://127.0.0.1:8000/instituciones/institution/aux-camila-1/
+
+Método: GET
+
+Respuesta Esperada:
+
+{
+  "institution": "Ravenna_High_School"
+}
+
+Código de Estado Esperado: 200
+
+Caso de Prueba 5: Usuario No Reconocido
+
+Descripción: Probar que la vista devuelva un error cuando el usuario no esté en la lista de usuarios válidos.
+
+URL: http://127.0.0.1:8000/instituciones/institution/usuario-desconocido/
+
+Método: GET
+
+Respuesta Esperada:
 
 {
   "error": "User not recognized"
 }
 
-3. Caso de Error: Institución No Reconocida
+Código de Estado Esperado: 400
 
-Descripción: El nombre de la institución no está en la lista de instituciones válidas.
+Caso de Prueba 6: Formato de Usuario Inválido
 
-URL:
+Descripción: Probar que la vista maneje adecuadamente un formato de user_id que no sea válido (por ejemplo, faltan guiones o tiene caracteres incorrectos).
 
-http://127.0.0.1:8000/instituciones/institution/pedro20-INSTITUCION_NO_VALIDA/
+URL: http://127.0.0.1:8000/instituciones/institution/usuario_invalido_123/
 
-Esperado:
+Método: GET
 
-{
-  "error": "Institution not recognized"
-}
-
-4. Caso de Error: Usuario e Institución No Están Asociados
-
-Descripción: El usuario e institución son válidos, pero no están asociados entre sí.
-
-URL:
-
-http://127.0.0.1:8000/instituciones/institution/pedro20-CROWLEY_COUNTY_ELEMENTARY_K-6/
-
-Esperado:
+Respuesta Esperada:
 
 {
-  "error": "User and institution do not match"
+  "error": "User not recognized"
 }
 
-URL:
+Código de Estado Esperado: 400
 
-http://127.0.0.1:8000/instituciones/institution/emilioZea1-GORDON_BERNELL_CHARTER/
+Caso de Prueba 7: Usuario en Minúsculas
 
-Esperado:
+Descripción: Probar que la vista maneje correctamente los identificadores sensibles a mayúsculas/minúsculas, devolviendo un error si el identificador no coincide exactamente.
+
+URL: http://127.0.0.1:8000/instituciones/institution/PADRE-FAMILIA-ERNESTO-1/
+
+Método: GET
+
+Respuesta Esperada:
 
 {
-  "error": "User and institution do not match"
+  "error": "User not recognized"
 }
 
-5. Caso de Error: Formato Inválido del Identificador
+Código de Estado Esperado: 400
 
-Descripción: El identificador de usuario no tiene el formato correcto (usuario-institucion).
-
-URL:
-
-http://127.0.0.1:8000/instituciones/institution/pedro20GORDON_BERNELL_CHARTER/
-
-Esperado:
-
-{
-  "error": "Invalid user_id format"
-}
-
-URL:
-
-http://127.0.0.1:8000/instituciones/institution/pedro20/
-
-Esperado:
-
-{
-  "error": "Invalid user_id format"
-}
-
-Resumen de los Casos de Prueba
-
-Éxito:
-
-pedro20-GORDON_BERNELL_CHARTER → Devuelve la institución correcta.
-
-emilioZea1-CROWLEY_COUNTY_ELEMENTARY_K-6 → Devuelve la institución correcta.
-
-Errores:
-
-Usuario no reconocido: usuarioX-GORDON_BERNELL_CHARTER
-
-Institución no reconocida: pedro20-INSTITUCION_NO_VALIDA
-
-Usuario e institución no asociados:
-
-pedro20-CROWLEY_COUNTY_ELEMENTARY_K-6
-
-emilioZea1-GORDON_BERNELL_CHARTER
-
-Formato inválido del identificador:
-
-pedro20GORDON_BERNELL_CHARTER
-
-pedro20
-
-Cómo Probar los Casos
-
-Ejecuta el Servidor:
-Asegúrate de que tu servidor de desarrollo de Django está ejecutándose.
-
-python3 manage.py runserver
-
-Visita las URLs:
-Copia cada URL en el navegador para probar los diferentes casos. También puedes usar herramientas como Postman o curl en la terminal para probar las respuestas de la API.
